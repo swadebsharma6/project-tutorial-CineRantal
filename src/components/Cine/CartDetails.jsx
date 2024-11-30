@@ -9,7 +9,17 @@ const CartDetails = ({handleCloseCart}) => {
 
         // useContext 
   const {cartData, setCartData} = useContext(MovieContext);
-  console.log(cartData)
+
+
+  const handleDeleteCart =(itemId)=>{
+      // event.preventdefault();
+
+      const filteredItem = cartData.filter((item)=>{
+            return item.id !== itemId
+      })
+
+      setCartData([...filteredItem])
+  }
 
       return (
             <div
@@ -26,7 +36,10 @@ const CartDetails = ({handleCloseCart}) => {
             className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14"
           >
             {
-                  cartData.map(item => (
+                  cartData.length === 0 
+                  ? (<p className="text-3xl font-bold">The Cart Is Empty</p>)
+
+                :  cartData.map(item => (
                         <div key={item.id} className="grid grid-cols-[1fr_auto] gap-4">
               <div className="flex items-center gap-4">
                 <img
@@ -45,6 +58,7 @@ const CartDetails = ({handleCloseCart}) => {
               </div>
               <div className="flex justify-between gap-4 items-center">
                 <button
+                onClick={()=> handleDeleteCart(item.id)}
                   className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
                 >
                   <img className="w-5 h-5" src={Del} alt="" />
